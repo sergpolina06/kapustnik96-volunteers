@@ -27,57 +27,49 @@ const teamQuestions = {
 };
 
 // 2️⃣ Элементы формы
-const checkboxes = document.querySelectorAll('.departments input[type="checkbox"]');
+const select = document.getElementById("departments");
 const extraQuestionsDiv = document.getElementById("extra-questions");
 const form = document.getElementById("volunteer-form");
 
 // 3️⃣ Подгрузка динамических вопросов
-function updateExtraQuestions() {
-  extraQuestionsDiv.innerHTML = ""; // очищаем блок
+select.addEventListener("change", () => {
+  const selected = Array.from(select.selectedOptions).map(o => o.value);
+  extraQuestionsDiv.innerHTML = ""; // очистка старых
 
-  checkboxes.forEach(cb => {
-    if(cb.checked) {
-      const team = cb.value;
+  selected.forEach(team => {
+    const title = document.createElement("h3");
+    title.textContent = team;
+    title.style.color = "#66001a";
+    extraQuestionsDiv.appendChild(title);
 
-      // Заголовок команды
-      const title = document.createElement("h3");
-      title.textContent = team;
-      title.style.color = "#66001a";
-      extraQuestionsDiv.appendChild(title);
+    teamQuestions[team].forEach(question => {
+      const label = document.createElement("label");
+      label.textContent = question;
 
-      // Основные вопросы
-      teamQuestions[team].forEach(question => {
-        const label = document.createElement("label");
-        label.textContent = question;
+      const input = document.createElement("input");
+      input.type = "text";
+      input.name = `${team}_${question}`.replace(/[^\w]/g, "_");
+      input.required = true;
 
-        const input = document.createElement("input");
-        input.type = "text";
-        input.name = `${team}_${question}`.replace(/[^\w]/g, "_");
-        input.required = true;
+      label.appendChild(input);
+      extraQuestionsDiv.appendChild(label);
+    });
 
-        label.appendChild(input);
-        extraQuestionsDiv.appendChild(label);
-      });
+    // Особое поле для фотографов: портфолио
+    if (team === "Фотографы") {
+      const label = document.createElement("label");
+      label.textContent = "Ссылка на портфолио (если есть):";
 
-      // Особое поле для фотографов: портфолио
-      if (team === "Фотографы") {
-        const label = document.createElement("label");
-        label.textContent = "Ссылка на портфолио (если есть):";
+      const input = document.createElement("input");
+      input.type = "url";
+      input.placeholder = "https://...";
+      input.name = "Фотографы_портфолио";
 
-        const input = document.createElement("input");
-        input.type = "url";
-        input.placeholder = "https://...";
-        input.name = "Фотографы_портфолио";
-
-        label.appendChild(input);
-        extraQuestionsDiv.appendChild(label);
-      }
+      label.appendChild(input);
+      extraQuestionsDiv.appendChild(label);
     }
   });
-}
-
-// Навешиваем обработчик на каждый чекбокс
-checkboxes.forEach(cb => cb.addEventListener('change', updateExtraQuestions));
+});
 
 // 4️⃣ Отправка формы
 form.addEventListener("submit", (event) => {
@@ -120,4 +112,3 @@ form.addEventListener("submit", (event) => {
     alert("Ошибка подключения: " + JSON.stringify(err));
   });
 });
-
