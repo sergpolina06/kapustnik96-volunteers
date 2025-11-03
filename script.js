@@ -101,7 +101,7 @@ form.addEventListener("submit", (event) => {
   // 3️⃣ Преобразуем в URLSearchParams для отправки
   const params = new URLSearchParams(data);
 
-  fetch("https://script.google.com/macros/s/AKfycbw9mCsNX9aPHmJn8-v5NhFjk69-L9UW-kLuTJgZsmX9Dlvnq3ThqDNVqHYDbZas-4tn/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbxzl-idODLyVlV_Xo3wkJB3u9894iUmottrDC2DAma5Vrujr8sYlAlJMKtSU9K33AZg/exec", {
     method: "POST",
     body: params
   })
