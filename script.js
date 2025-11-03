@@ -17,7 +17,6 @@ const teamQuestions = {
     "Умеешь ли обрабатывать и в какой программе работаешь (Photoshop, Lightroom и т.д.)?",
     "Сможешь ли ты помогать до капустника Капустника? (По вечерам)",
     "Сможешь ли ты помогать на самом Капустнике 5 декабря?"
-    // Ссылка на портфолио добавим отдельно ниже
   ],
   "Гиды": [
     "Хорошо ли ты ориентируешься на факультете? Сможешь ответить на вопросы делегатов?",
@@ -36,57 +35,49 @@ const teamQuestions = {
 };
 
 // 2️⃣ Элементы формы
-const checkboxes = document.querySelectorAll('.departments input[type="checkbox"]');
+const select = document.getElementById("departments");
 const extraQuestionsDiv = document.getElementById("extra-questions");
 const form = document.getElementById("volunteer-form");
 
 // 3️⃣ Подгрузка динамических вопросов
-function updateExtraQuestions() {
-  extraQuestionsDiv.innerHTML = ""; // очищаем блок
+select.addEventListener("change", () => {
+  const selected = Array.from(select.selectedOptions).map(o => o.value);
+  extraQuestionsDiv.innerHTML = ""; // очистка старых
 
-  checkboxes.forEach(cb => {
-    if(cb.checked) {
-      const team = cb.value;
+  selected.forEach(team => {
+    const title = document.createElement("h3");
+    title.textContent = team;
+    title.style.color = "#66001a";
+    extraQuestionsDiv.appendChild(title);
 
-      // Заголовок команды
-      const title = document.createElement("h3");
-      title.textContent = team;
-      title.style.color = "#66001a";
-      extraQuestionsDiv.appendChild(title);
+    teamQuestions[team].forEach(question => {
+      const label = document.createElement("label");
+      label.textContent = question;
 
-      // Основные вопросы
-      teamQuestions[team].forEach(question => {
-        const label = document.createElement("label");
-        label.textContent = question;
+      const input = document.createElement("input");
+      input.type = "text";
+      input.name = `${team}_${question}`.replace(/[^\w]/g, "_");
+      input.required = true;
 
-        const input = document.createElement("input");
-        input.type = "text";
-        input.name = `${team}_${question}`.replace(/[^\w]/g, "_");
-        input.required = true;
+      label.appendChild(input);
+      extraQuestionsDiv.appendChild(label);
+    });
 
-        label.appendChild(input);
-        extraQuestionsDiv.appendChild(label);
-      });
+    // Особое поле для фотографов: портфолио
+    if (team === "Фотографы") {
+      const label = document.createElement("label");
+      label.textContent = "Ссылка на портфолио (если есть):";
 
-      // Особое поле для фотографов: портфолио
-      if (team === "Фотографы") {
-        const label = document.createElement("label");
-        label.textContent = "Ссылка на портфолио (если есть):";
+      const input = document.createElement("input");
+      input.type = "url";
+      input.placeholder = "https://...";
+      input.name = "Фотографы_портфолио";
 
-        const input = document.createElement("input");
-        input.type = "url";
-        input.placeholder = "https://...";
-        input.name = "Фотографы_портфолио";
-
-        label.appendChild(input);
-        extraQuestionsDiv.appendChild(label);
-      }
+      label.appendChild(input);
+      extraQuestionsDiv.appendChild(label);
     }
   });
-}
-
-// Навешиваем обработчик на каждый чекбокс
-checkboxes.forEach(cb => cb.addEventListener('change', updateExtraQuestions));
+});
 
 // 4️⃣ Отправка формы
 form.addEventListener("submit", (event) => {
@@ -108,7 +99,6 @@ form.addEventListener("submit", (event) => {
   });
   data.extraQuestions = JSON.stringify(extraQuestions);
 
-  // Преобразуем в URLSearchParams для отправки
   const params = new URLSearchParams(data);
 
   fetch("https://script.google.com/macros/s/AKfycbw9mCsNX9aPHmJn8-v5NhFjk69-L9UW-kLuTJgZsmX9Dlvnq3ThqDNVqHYDbZas-4tn/exec", {
