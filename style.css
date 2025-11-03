@@ -70,6 +70,22 @@ select[multiple] {
   height: 130px;
 }
 
+/* ======= ВАРИАНТЫ РАЗМЕРА ФУТБОЛКИ ======= */
+.shirt-sizes {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+  margin-bottom: 15px;
+}
+
+.shirt-sizes label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+}
+
 /* ======= ТЕКСТ-ПОДСКАЗКИ ======= */
 small {
   color: #CCCCCC;
