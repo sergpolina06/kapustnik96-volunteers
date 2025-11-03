@@ -70,17 +70,6 @@ select[multiple] {
   height: 130px;
 }
 
-.departments {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.departments label {
-  cursor: pointer;
-}
-
-
 /* ======= ТЕКСТ-ПОДСКАЗКИ ======= */
 small {
   color: #CCCCCC;
