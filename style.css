@@ -70,19 +70,18 @@ select[multiple] {
   height: 130px;
 }
 
-/* ======= ВАРИАНТЫ РАЗМЕРА ФУТБОЛКИ ======= */
 .shirt-sizes {
-  display: flex;
-  gap: 12px;
+  display: flex;          /* горизонтальный ряд */
+  gap: 12px;              /* расстояние между вариантами */
   margin-top: 6px;
   margin-bottom: 15px;
 }
 
 .shirt-sizes label {
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  display: flex;          /* кнопка и текст в одной линии */
+  align-items: center;    /* вертикальное выравнивание текста по центру кнопки */
+  gap: 4px;               /* отступ между кнопкой и текстом */
   font-weight: 500;
 }
 
