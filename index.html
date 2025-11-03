@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Анкета волонтёра</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Анкета волонтёра</h1>
+    <p>Пожалуйста, заполните форму ниже, чтобы присоединиться к нашей команде ❤️</p>
+
+    <form id="volunteer-form">
+      <!-- ФИО -->
+      <label>
+        Твои ФИО:
+        <input type="text" name="fullName" placeholder="Иванов Иван Иванович" required>
+      </label>
+
+      <!-- Академическая группа -->
+      <label>
+        Номер твоей академической группы:
+        <input type="text" name="group" placeholder="Б01-123" required>
+      </label>
+
+      <!-- ВК -->
+      <label>
+        Ссылка на твою страницу ВК:
+        <small>В формате https://vk.com/</small>
+        <input type="url" name="vk" placeholder="https://vk.com/example" pattern="https://vk\.com/.*" required>
+      </label>
+
+      <!-- Телеграм -->
+      <label>
+        Ссылка на твой профиль Телеграм:
+        <small>В формате https://t.me/</small>
+        <input type="url" name="telegram" placeholder="https://t.me/example" pattern="https://t\.me/.*" required>
+      </label>
+
+      <!-- Команды -->
+      <label>
+        В какой команде ты бы хотел помогать нам?
+      </label>
+      <select id="departments" name="departments" multiple required>
+        <option value="Волонтёры">Волонтёры</option>
+        <option value="Информ">Информ</option>
+        <option value="Фотографы">Фотографы</option>
+        <option value="Гиды">Гиды</option>
+        <option value="Работяги">Работяги</option>
+        <option value="Охранники на Ночь Капустника">Охранники на Ночь Капустника</option>
+      </select>
+
+      <div id="extra-questions"></div>
+
+      <button type="submit">Отправить</button>
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
