@@ -80,7 +80,6 @@ select.addEventListener("change", () => {
   });
 });
 
-// 4️⃣ Отправка формы
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
@@ -89,21 +88,20 @@ form.addEventListener("submit", (event) => {
     return;
   }
 
+  // 1️⃣ Берём все стандартные поля формы
   const formData = new FormData(form);
   const data = Object.fromEntries(formData.entries());
 
-  // Собираем динамические вопросы
+  // 2️⃣ Добавляем динамические вопросы прямо в data
   const extraInputs = extraQuestionsDiv.querySelectorAll("input");
-  const extraQuestions = {};
   extraInputs.forEach(input => {
-    extraQuestions[input.name] = input.value;
+    data[input.name] = input.value; // теперь каждый вопрос отдельное поле
   });
-  data.extraQuestions = JSON.stringify(extraQuestions); // в Apps Script ожидаем JSON как строку
 
-  // Преобразуем в URLSearchParams для обхода CORS/preflight
+  // 3️⃣ Преобразуем в URLSearchParams для отправки
   const params = new URLSearchParams(data);
 
-  fetch("https://script.google.com/macros/s/AKfycbw9mCsNX9aPHmJn8-v5NhFjk69-L9UW-kLuTJgZsmX9Dlvnq3ThqDNVqHYDbZas-4tn/exec", { // замените на URL вашего Web App
+  fetch("https://script.google.com/macros/s/AKfycbw9mCsNX9aPHmJn8-v5NhFjk69-L9UW-kLuTJgZsmX9Dlvnq3ThqDNVqHYDbZas-4tn/exec", {
     method: "POST",
     body: params
   })
