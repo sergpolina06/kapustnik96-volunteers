@@ -2,26 +2,13 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Набор волонтёров на Капустник 96</title>
+  <title>Анкета волонтёра</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    /* Стили для списка команд с чекбоксами */
-    .departments {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      margin-bottom: 15px;
-    }
-
-    .departments label {
-      cursor: pointer;
-    }
-  </style>
 </head>
 <body>
   <main>
-    <h1>Набор волонтёров на Капустник 96</h1>
-    <p>5 декабря состоится одно из самых крутых мероприятий осеннего семестра на Химическом факультете - Капустник 96, и мы будем рады твоей помощи! Заполняй форму ниже и присоединяйся к нашей команде!</p>
+    <h1>Анкета волонтёра</h1>
+    <p>Пожалуйста, заполните форму ниже, чтобы присоединиться к нашей команде ❤️</p>
 
     <form id="volunteer-form">
       <!-- ФИО -->
@@ -48,16 +35,18 @@
         <input type="url" name="telegram" placeholder="https://t.me/example" pattern="https://t\.me/.*" required>
       </label>
 
-      <!-- Команды (замена select на чекбоксы) -->
-      <label>В какой команде ты бы хотел помогать нам?</label>
-      <div class="departments">
-        <label><input type="checkbox" name="departments" value="Волонтёры"> Волонтёры</label>
-        <label><input type="checkbox" name="departments" value="Информ"> Информ</label>
-        <label><input type="checkbox" name="departments" value="Фотографы"> Фотографы</label>
-        <label><input type="checkbox" name="departments" value="Гиды"> Гиды</label>
-        <label><input type="checkbox" name="departments" value="Работяги"> Работяги</label>
-        <label><input type="checkbox" name="departments" value="Охранники на Ночь Капустника"> Охранники на Ночь Капустника</label>
-      </div>
+      <!-- Команды -->
+      <label>
+        В какой команде ты бы хотел помогать нам?
+      </label>
+      <select id="departments" name="departments" multiple required>
+        <option value="Волонтёры">Волонтёры</option>
+        <option value="Информ">Информ</option>
+        <option value="Фотографы">Фотографы</option>
+        <option value="Гиды">Гиды</option>
+        <option value="Работяги">Работяги</option>
+        <option value="Охранники на Ночь Капустника">Охранники на Ночь Капустника</option>
+      </select>
 
       <div id="extra-questions"></div>
 
