@@ -2,74 +2,91 @@
 const teamQuestions = {
   "Волонтёры": [
     "Есть ли у тебя опыт волонтёрства на других мероприятиях? Если да, то расскажи нам об этом!",
-    "Сможешь ли ты помогать на мероприятиях до Капустника (квиз 4 декабря с 18 до 22, шахматный турнир 3 декабря)?",
-    "Сможешь ли ты помогать на самом Капустнике (5 декабря)?"
+    "Сможешь ли ты помогать до капустника с доставками? (Принимать/отвозить посылки)",
+    "Сможешь ли ты помогать на шахматном турнире 3 декабря 18:30-21:00?",
+    "Сможешь ли ты помогать на квизе 4 декабря с 18:00-22:00?",
+    "Сможешь ли ты помогать на самом Капустнике 5 декабря?"
   ],
   "Информ": [
-    "Есть ли опыт работы?",
-    "В какой соцсети хотел бы работать больше (ВК/Телеграм)?"
+    "Есть ли опыт работы в этой сфере?",
+    "Тебе больше интересна съемка видео или написание постов?"
   ],
   "Фотографы": [
     "Есть ли своя камера? Какая?",
     "Есть ли опыт в фотографии?",
     "Умеешь ли обрабатывать и в какой программе работаешь (Photoshop, Lightroom и т.д.)?",
-    "Сможешь ли быть в день Капустника?",
-    "Сможешь ли помогать до Капустника (по вечерам)?"
+    "Сможешь ли ты помогать до капустника Капустника? (По вечерам)",
+    "Сможешь ли ты помогать на самом Капустнике 5 декабря?"
+    // Ссылка на портфолио добавим отдельно ниже
   ],
-  "Гиды": ["Есть ли опыт работы гидом?"],
+  "Гиды": [
+    "Хорошо ли ты ориентируешься на факультете? Сможешь ответить на вопросы делегатов?",
+    "Сможешь ли ты помогать делегации на квизе 4 декабря?",
+    "Сможешь ли ты помогать на самом Капустнике 5 декабря? (Приблизительная занятость весь день + Капустник найт)"
+  ],
   "Работяги": [
-    "Готов ли помогать в застройке/разборке сцены?",
-    "Сможешь ли помогать в день Капустника?"
+    "Есть ли у тебя машина/готов взять каршеринг?",
+    "Готов ли ты помогать за день до Капустника? (Поздно вечером 4 декабря)",
+    "Сможешь ли ты помогать на самом Капустнике 5 декабря?",
+    "Место жительства (если не общежитие - напиши ближайшую станцию метро)"
   ],
   "Охранники на Ночь Капустника": [
-    "Готов ли помогать ночью с 5 на 6 декабря с 23 до 6?"
+    "Готов помогать в ночь с 5 на 6 декабря с 23:00 до 6:00?"
   ]
 };
 
 // 2️⃣ Элементы формы
-const select = document.getElementById("departments");
+const checkboxes = document.querySelectorAll('.departments input[type="checkbox"]');
 const extraQuestionsDiv = document.getElementById("extra-questions");
 const form = document.getElementById("volunteer-form");
 
 // 3️⃣ Подгрузка динамических вопросов
-select.addEventListener("change", () => {
-  const selected = Array.from(select.selectedOptions).map(o => o.value);
-  extraQuestionsDiv.innerHTML = ""; // очистка старых
+function updateExtraQuestions() {
+  extraQuestionsDiv.innerHTML = ""; // очищаем блок
 
-  selected.forEach(team => {
-    const title = document.createElement("h3");
-    title.textContent = team;
-    title.style.color = "#66001a";
-    extraQuestionsDiv.appendChild(title);
+  checkboxes.forEach(cb => {
+    if(cb.checked) {
+      const team = cb.value;
 
-    teamQuestions[team].forEach(question => {
-      const label = document.createElement("label");
-      label.textContent = question;
+      // Заголовок команды
+      const title = document.createElement("h3");
+      title.textContent = team;
+      title.style.color = "#66001a";
+      extraQuestionsDiv.appendChild(title);
 
-      const input = document.createElement("input");
-      input.type = "text";
-      input.name = `${team}_${question}`.replace(/[^\w]/g, "_");
-      input.required = true;
+      // Основные вопросы
+      teamQuestions[team].forEach(question => {
+        const label = document.createElement("label");
+        label.textContent = question;
 
-      label.appendChild(input);
-      extraQuestionsDiv.appendChild(label);
-    });
+        const input = document.createElement("input");
+        input.type = "text";
+        input.name = `${team}_${question}`.replace(/[^\w]/g, "_");
+        input.required = true;
 
-    // Особое поле для фотографов: портфолио
-    if (team === "Фотографы") {
-      const label = document.createElement("label");
-      label.textContent = "Ссылка на портфолио (если есть):";
+        label.appendChild(input);
+        extraQuestionsDiv.appendChild(label);
+      });
 
-      const input = document.createElement("input");
-      input.type = "url";
-      input.placeholder = "https://...";
-      input.name = "Фотографы_портфолио";
+      // Особое поле для фотографов: портфолио
+      if (team === "Фотографы") {
+        const label = document.createElement("label");
+        label.textContent = "Ссылка на портфолио (если есть):";
 
-      label.appendChild(input);
-      extraQuestionsDiv.appendChild(label);
+        const input = document.createElement("input");
+        input.type = "url";
+        input.placeholder = "https://...";
+        input.name = "Фотографы_портфолио";
+
+        label.appendChild(input);
+        extraQuestionsDiv.appendChild(label);
+      }
     }
   });
-});
+}
+
+// Навешиваем обработчик на каждый чекбокс
+checkboxes.forEach(cb => cb.addEventListener('change', updateExtraQuestions));
 
 // 4️⃣ Отправка формы
 form.addEventListener("submit", (event) => {
@@ -89,12 +106,12 @@ form.addEventListener("submit", (event) => {
   extraInputs.forEach(input => {
     extraQuestions[input.name] = input.value;
   });
-  data.extraQuestions = JSON.stringify(extraQuestions); // в Apps Script ожидаем JSON как строку
+  data.extraQuestions = JSON.stringify(extraQuestions);
 
-  // Преобразуем в URLSearchParams для обхода CORS/preflight
+  // Преобразуем в URLSearchParams для отправки
   const params = new URLSearchParams(data);
 
-  fetch("https://script.google.com/macros/s/AKfycbw9mCsNX9aPHmJn8-v5NhFjk69-L9UW-kLuTJgZsmX9Dlvnq3ThqDNVqHYDbZas-4tn/exec", { // замените на URL вашего Web App
+  fetch("https://script.google.com/macros/s/AKfycbw9mCsNX9aPHmJn8-v5NhFjk69-L9UW-kLuTJgZsmX9Dlvnq3ThqDNVqHYDbZas-4tn/exec", {
     method: "POST",
     body: params
   })
